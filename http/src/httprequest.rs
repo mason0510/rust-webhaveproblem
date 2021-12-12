@@ -35,7 +35,7 @@ impl From<&str> for Version {
 }
 
 #[derive(Debug, PartialEq)]
-pub enum Resourse {
+pub enum Resource {
     Path(String),
 }
 
@@ -43,7 +43,7 @@ pub enum Resourse {
 pub struct HttpRequest {
     pub method: Method,
     pub version: Version,
-    pub resourse: Resourse,
+    pub resource: Resource,
     pub header: HashMap<String, String>,
     pub msg_body: String,
 }
@@ -52,15 +52,15 @@ impl From<String> for HttpRequest {
     fn from(req: String) -> Self {
         let mut parsed_method = Method::Uninitialized;
         let mut parsed_version = Version::V1_1;
-        let mut parsed_resourse = Resourse::Path("".to_string());
+        let mut parsed_resource = Resource::Path("".to_string());
         let mut parsed_headers = HashMap::new();
         let mut parsed_msg_body = "".to_string();
 
         for line in req.lines() {
             if line.contains("HTTP") {
-                let (method, resourse, version) = process_req_line(line);
+                let (method, resource, version) = process_req_line(line);
                 parsed_method = method;
-                parsed_resourse = resourse;
+                parsed_resource = resource;
                 parsed_version = version;
             } else if line.contains(":") {
                 let (key, value) = process_header_line(line);
@@ -73,22 +73,22 @@ impl From<String> for HttpRequest {
         return HttpRequest {
             method: parsed_method,
             version: parsed_version,
-            resourse: parsed_resourse,
+            resource: parsed_resource,
             header: parsed_headers,
             msg_body: parsed_msg_body,
         };
     }
 }
 
-fn process_req_line(s: &str) -> (Method, Resourse, Version) {
+fn process_req_line(s: &str) -> (Method, Resource, Version) {
     let mut words = s.split_whitespace();
     let method = words.next().unwrap();
-    let resourse = words.next().unwrap();
+    let resource = words.next().unwrap();
     let version = words.next().unwrap();
 
     (
         method.into(),
-        Resourse::Path(resourse.to_string()),
+        Resource::Path(resource.to_string()),
         version.into(),
     )
 }
@@ -134,7 +134,7 @@ mod tests {
 
         assert_eq!(Method::Get, req.method);
         assert_eq!(Version::V1_1, req.version);
-        assert_eq!(Resourse::Path("/greeting".into()), req.resourse);
+        assert_eq!(Resource::Path("/greeting".into()), req.resource);
         assert_eq!(headers_expected, req.header);
     }
 }

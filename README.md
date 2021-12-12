@@ -39,4 +39,16 @@
 
 > 没有处理 io::Result<TcpStream> 的错误, 全部使用了 unwrap()
 
-### 
+### http
+
+- 定义了http请求体的数据结构， 实现了从http请求字符串解析成请求对象
+- 定义了http响应体的数据结构， 实现了从响应体对象解析成字符串(字节流)
+
+[详细文档](http/README.md)
+
+### httpserver
+
+- 定义了3000端口的监听 server.rs
+- 请求路径的解析 router.rs
+- 各个路径的处理 handler.rs
+   
