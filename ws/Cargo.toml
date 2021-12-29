@@ -1,0 +1,6 @@
+[workspace]
+members = ["webservice"]
+
+# [[bin]]
+# name = "service1"
+

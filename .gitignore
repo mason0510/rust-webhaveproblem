@@ -1,2 +1,4 @@
 target/
 .vscode
+ws.env
+.ws.env
