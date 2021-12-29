@@ -44,3 +44,9 @@ cargo run -p webservice --bin server1
 
   - GET:  /health
     返回`teacher-service`当前状态统计访问次数
+
+  - POST: /courses/
+
+    ```sh
+    curl -H "Content-Type: application/json" -X POST -d '{"teacher_id":1, "name":"First course"}' "127.0.0.1:3000/courses/"
+    ```
