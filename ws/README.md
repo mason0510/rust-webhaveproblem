@@ -50,3 +50,23 @@ cargo run -p webservice --bin server1
     ```sh
     curl -H "Content-Type: application/json" -X POST -d '{"teacher_id":1, "name":"First course"}' "127.0.0.1:3000/courses/"
     ```
+
+  - GET:  /courses/{teacher id}
+
+    ```sh
+    curl -H "Content-Type: application/json" -X POST -d '{"teacher_id":1, "name":"First course"}' "127.0.0.1:3000/courses/"
+
+    curl -H "Content-Type: application/json" -X POST -d '{"teacher_id":1, "name":"Second course"}' "127.0.0.1:3000/courses/"
+    
+    curl 127.0.0.1:3000/courses/1
+    ```
+
+  - GET:  /courses/{teacher id}/{course id}
+
+    ```sh
+    curl -H "Content-Type: application/json" -X POST -d '{"teacher_id":1, "name":"First course"}' "127.0.0.1:3000/courses/"
+
+    curl -H "Content-Type: application/json" -X POST -d '{"teacher_id":1, "name":"Second course"}' "127.0.0.1:3000/courses/"
+
+    curl 127.0.0.1:3000/courses/1/1
+    ```
