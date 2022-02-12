@@ -16,7 +16,7 @@
 
 cargo run -p webservice --bin server1
 
-### `server1`
+### `server1` (示例)
 
 简单使用 crate: `actix-web` 和 `actix-rt` 建立一个简单的web服务器
 
@@ -70,3 +70,94 @@ cargo run -p webservice --bin server1
 
     curl 127.0.0.1:3000/courses/1/1
     ```
+
+
+## 数据库
+
+### 准备工作
+
+1. 依赖
+
+  项目依赖于 `sqlx` 的crate
+
+2. postgres安装
+
+  1. 环境
+
+    ubuntu20.04 + docker
+
+  2. docker 安装postgres镜像
+
+   - 拉取镜像
+
+      ```sh
+      docker pull postgres 
+      ```
+   - 建立容器
+
+      ```sh
+      docker run -d --name postgres-test -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres
+      # postgres-test 为自定义名称
+      # POSTGRES_PASSWORD=postgres 等号后面是设置的密码
+      # 5432:5432 是将postgres的默认端口5432映射到本地的5432端口 
+      ```
+
+   - 启动容器
+      ```sh
+      docker start postgres-test
+      ```
+
+   - 查看当前运行的容器
+      ```sh
+      docker ps
+      ```
+
+   - 停止容器
+      ```sh
+      docker stop postgres-test
+      ```
+
+   - 删除容器
+      ```sh
+      docker rm postgres-test
+      ```
+
+   - 进入容器的bash shell命令行
+      ```sh
+      docker exec -it postgres-test bash
+      ```
+
+   - 进入容器的postgres shell命令行
+      ```sh
+      docker exec -it -u postgres postgres-test psql
+      ```
+
+### 数据库建表
+
+> 以下在容器内postgres用户的数据库shell执行
+
+1. 创建数据库用户`root`，并设置密码
+  ```sql
+  create user root with password 'root';
+  ```
+
+2. 为用户`root`创建数据库`tutorail`并赋权给`root`
+  ```sql
+  create database tutorail owner root;
+  grant all privileges on database tutorial to root;
+  ```
+
+
+3. 使用`DataGrip`以`root`用户连接`tutorail`数据库， 开始建表
+
+  ```sql
+  create table course
+  (
+      id         serial,
+      teacher_id integer not null,
+      name       varchar(140),
+      time       timestamp default now()
+  );
+  ```
+
+

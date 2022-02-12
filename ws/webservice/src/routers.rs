@@ -14,5 +14,8 @@ pub fn course_routes(cfg: &mut web::ServiceConfig) {
     );
     /*
     curl -H "Content-Type: application/json" -X POST -d '{"teacher_id":1, "name":"First course"}' "127.0.0.1:3000/courses/"
+
+    增加了数据库后
+    curl -H "Content-Type: application/json" -X POST -d '{"teacher_id":1, "id":7, "name":"Calculus"}' "127.0.0.1:3000/courses/"
     */
 }

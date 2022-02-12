@@ -2,3 +2,5 @@ target/
 .vscode
 ws.env
 .ws.env
+test.bash
+*.ln
