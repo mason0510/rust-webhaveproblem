@@ -7,14 +7,21 @@ use std::sync::Mutex;
 
 #[path = "../db_access.rs"]
 mod db_access;
+
 #[path = "../handlers.rs"]
 mod handlers;
+
 #[path = "../models.rs"]
 mod models;
+
 #[path = "../routers.rs"]
 mod routers;
+
 #[path = "../state.rs"]
 mod state;
+
+#[path = "../errors.rs"]
+mod errors;
 
 use routers::*;
 use state::AppState;
