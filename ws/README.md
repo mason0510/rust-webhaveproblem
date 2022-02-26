@@ -148,7 +148,7 @@ cargo run -p webservice --bin server1
   ```
 
 
-3. 使用`DataGrip`以`root`用户连接`tutorail`数据库， 开始建表
+3. (重构前)使用`DataGrip`以`root`用户连接`tutorail`数据库， 开始建表
 
   ```sql
   create table course
@@ -160,4 +160,25 @@ cargo run -p webservice --bin server1
   );
   ```
 
+
+4. 重构之后的建表
+
+  ```sql
+  drop table course;
+
+  create table course
+    (
+        id          serial primary key,
+        teacher_id  integer not null,
+        name        varchar(140),
+        time        timestamp default now(),
+        description varchar(2000),
+        format      varchar(30),
+        structure   varchar(200),
+        duration    varchar(30),
+        price       integer,
+        language    varchar(30),
+        level       varchar(30)
+    );
+  ```
 
