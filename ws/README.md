@@ -132,7 +132,7 @@ cargo run -p webservice --bin server1
       docker exec -it -u postgres postgres-test psql
       ```
 
-### 数据库建表
+### course数据库建表
 
 > 以下在容器内postgres用户的数据库shell执行
 
@@ -161,24 +161,66 @@ cargo run -p webservice --bin server1
   ```
 
 
-4. 重构之后的建表
+## 重构后部分
 
-  ```sql
-  drop table course;
+1. course管理
 
-  create table course
-    (
-        id          serial primary key,
-        teacher_id  integer not null,
-        name        varchar(140),
-        time        timestamp default now(),
-        description varchar(2000),
-        format      varchar(30),
-        structure   varchar(200),
-        duration    varchar(30),
-        price       integer,
-        language    varchar(30),
-        level       varchar(30)
-    );
-  ```
+   - course数据库建表
+    ```sql
+    drop table course;
+
+    create table course
+      (
+          id          serial primary key,
+          teacher_id  integer not null,
+          name        varchar(140),
+          time        timestamp default now(),
+          description varchar(2000),
+          format      varchar(30),
+          structure   varchar(200),
+          duration    varchar(30),
+          price       integer,
+          language    varchar(30),
+          level       varchar(30)
+      );
+    ```
+
+   - HTTP字段
+
+  | Routes                                   | Handlers                | DB Access                  |
+  | ---------------------------------------- | ----------------------- | -------------------------- |
+  | GET /courses/{teacher_id}                | get_courses_for_teacher | get_courses_for_teacher_db |
+  | GET /courses/{teacher_id}/{course_id}    | get_course_detail       | get_course_detail_db       |
+  | POST /courses                            | post_new_course         | post_new_course_db         |
+  | DELETE /courses/{teacher_id}/{course_id} | delete_course           | delete_course_db           |
+  | PUT /courses/{teacher_id}/{course_id}    | update_course_detail    | update_course_detail_db    |
+
+2. teacher管理
+
+   - teacher数据库建表
+
+    ```sql
+    drop table if exists teacher;
+
+    create table teacher
+      (
+        id              serial primary key,
+        name            varchar(100),
+        picture_url     varchar(200),
+        profile         varchar(2000)
+      );
+    ```
+
+   - HTTP字段
+
+
+    | Routes                        | Handlers               | DB Access                 |
+    | ----------------------------- | ---------------------- | ------------------------- |
+    | GET /teachers                 | get_all_teachers       | get_all_teachers_db       |
+    | GET /teachers/{teacher_id}    | get_teacher_details    | get_teacher_details_db    |
+    | POST /teachers                | post_new_teacher       | post_new_teacher_db       |
+    | PUT /teachers/{teacher_id}    | update_teacher_details | update_teacher_details_db |
+    | DELETE /teachers/{teacher_id} | delete_teacher         | delete_teacher_db         |
+
+
 

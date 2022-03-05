@@ -43,8 +43,12 @@ async fn main() -> io::Result<()> {
     let app = move || {
         App::new()
             .app_data(shared_data.clone())
+            .app_data(web::JsonConfig::default().error_handler(|_err, _req| {
+                errors::MyError::InvalidTnput("Please provide valid Json input".to_string()).into()
+            }))
             .configure(general_routes)
             .configure(course_routes)
+            .configure(teacher_routes)
     };
 
     // 0.0.0.0 表示监听所有ip， 127.0.0.1和localhost 表示只能被本机ip访问
